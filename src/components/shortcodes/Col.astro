@@ -1,0 +1,18 @@
+---
+interface Props {
+  columns?: number | string;
+  offset?: number | string;
+  class?: string;
+}
+
+const { columns, offset, class: className } = Astro.props;
+
+const classes = ["col__shortcode", "col"];
+if (columns) classes.push(`col-sm-${columns}`);
+if (offset) classes.push(`offset-sm-${offset}`);
+if (className) classes.push(className);
+---
+
+<div class={classes.join(" ")}>
+  <slot />
+</div>

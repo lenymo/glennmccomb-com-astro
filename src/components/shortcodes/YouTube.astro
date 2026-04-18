@@ -1,0 +1,17 @@
+---
+interface Props {
+  id: string;
+  autoplay?: boolean;
+}
+
+const { id, autoplay = false } = Astro.props;
+const src = `https://www.youtube.com/embed/${id}?rel=0&showinfo=0${autoplay ? "&autoplay=1" : ""}`;
+---
+
+<div class="iframe-wrapper youtube">
+  <iframe
+    src={src}
+    allowfullscreen
+    frameborder="0"
+    title="YouTube Video"></iframe>
+</div>

@@ -1,13 +1,17 @@
 ---
 import Layout from "./Layout.astro";
 import ArticleHeader from "../components/ArticleHeader.astro";
+import ArticleContainer from "../components/article/ArticleContainer.astro";
+import TableOfContents from "../components/TableOfContents.astro";
 import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
 
 interface Props {
   article: CollectionEntry<"articles">;
+  headings?: MarkdownHeading[];
 }
 
-const { article } = Astro.props;
+const { article, headings = [] } = Astro.props;
 const { data } = article;
 
 const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
@@ -53,49 +57,47 @@ const year = data.date.getUTCFullYear();
 
   <section class="section section__article-body">
     <article class="article-body">
-      <div class="container">
-        <div class="row">
-          <div
-            class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
-          >
-            <div class="article-body__content">
-              <slot />
-            </div>
+      {
+        data.toc && headings.length > 0 && (
+          <ArticleContainer>
+            <TableOfContents headings={headings} />
+          </ArticleContainer>
+        )
+      }
 
-            <div class="article-author">
-              <img
-                src="/img/photo-glenn-mccomb.jpg"
-                class="article-author__photo"
-                alt="Glenn McComb"
-              />
-              <h3 class="article-author__name">
-                <a
-                  href="https://twitter.com/lenymo"
-                  class="article-author__name-link">Glenn McComb</a
-                >
-              </h3>
-              <p class="article-author__date">
-                <span class="article-author__date-day"
-                  >{day}<sup class="article-author__date-day-suffix"
-                    >{daySuffix}</sup
-                  ></span
-                >
-                <span class="article-author__date-month">{monthLong}</span>
-                <span class="article-author__date-year">{year}</span>
-              </p>
-            </div>
-          </div>
+      <slot />
+
+      <ArticleContainer>
+        <div class="article-author">
+          <img
+            src="/img/photo-glenn-mccomb.jpg"
+            class="article-author__photo"
+            alt="Glenn McComb"
+          />
+          <h3 class="article-author__name">
+            <a
+              href="https://twitter.com/lenymo"
+              class="article-author__name-link">Glenn McComb</a
+            >
+          </h3>
+          <p class="article-author__date">
+            <span class="article-author__date-day"
+              >{day}<sup class="article-author__date-day-suffix"
+                >{daySuffix}</sup
+              ></span
+            >
+            <span class="article-author__date-month">{monthLong}</span>
+            <span class="article-author__date-year">{year}</span>
+          </p>
         </div>
-      </div>
+      </ArticleContainer>
     </article>
   </section>
 
   <section class="section section__article-footer">
     <div class="container">
       <div class="row">
-        <div
-          class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
-        >
+        <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
           <div class="article-comments">
             <h2 class="article-comments__title">Leave a comment</h2>
             <div class="article-comments__disqus-wrapper">

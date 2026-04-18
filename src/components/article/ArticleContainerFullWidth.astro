@@ -1,0 +1,23 @@
+---
+interface Props {
+  container?: boolean;
+  class?: string;
+}
+
+const { container = false, class: className } = Astro.props;
+const wrapperClass = ["article-body__full-bleed", className]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class={wrapperClass}>
+  {
+    container ? (
+      <div class="container">
+        <slot />
+      </div>
+    ) : (
+      <slot />
+    )
+  }
+</div>

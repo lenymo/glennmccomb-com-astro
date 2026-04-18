@@ -1,0 +1,72 @@
+---
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const topLevel = headings.filter((h) => h.depth >= 2 && h.depth <= 3);
+
+interface Node {
+  heading: MarkdownHeading;
+  children: Node[];
+}
+
+const tree: Node[] = [];
+for (const h of topLevel) {
+  if (h.depth === 2) {
+    tree.push({ heading: h, children: [] });
+  } else if (h.depth === 3 && tree.length > 0) {
+    tree[tree.length - 1].children.push({ heading: h, children: [] });
+  }
+}
+---
+
+<div class="table-of-contents">
+  <a href="javascript:void(0);" class="table-of-contents__toggle">
+    <span class="table-of-contents__toggle-icon">
+      <span
+        class="table-of-contents__toggle-icon-bar table-of-contents__toggle-icon-bar--1"
+      ></span>
+      <span
+        class="table-of-contents__toggle-icon-bar table-of-contents__toggle-icon-bar--2"
+      ></span>
+      <span
+        class="table-of-contents__toggle-icon-bar table-of-contents__toggle-icon-bar--3"
+      ></span>
+      <span
+        class="table-of-contents__toggle-icon-bar table-of-contents__toggle-icon-bar--4"
+      ></span>
+      <span
+        class="table-of-contents__toggle-icon-bar table-of-contents__toggle-icon-bar--5"
+      ></span>
+    </span>
+    <span class="table-of-contents__toggle-label">Table of Contents</span>
+  </a>
+  <div class="table-of-contents__wrapper">
+    <h6 class="table-of-contents__title">Table of contents</h6>
+    <nav id="TableOfContents">
+      <ul>
+        {
+          tree.map((node) => (
+            <li>
+              <a href={`#${node.heading.slug}`}>{node.heading.text}</a>
+              {node.children.length > 0 && (
+                <ul>
+                  {node.children.map((child) => (
+                    <li>
+                      <a href={`#${child.heading.slug}`}>
+                        {child.heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</div>

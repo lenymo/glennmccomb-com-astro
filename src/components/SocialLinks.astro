@@ -1,0 +1,19 @@
+---
+import { socialLinks } from "../data/socialLinks";
+---
+
+<div class="social-links">
+  <ul class="social-links__list">
+    {
+      socialLinks.map((link) => (
+        <li
+          class={`social-links__item social-links__item__${link.identifier}`}
+        >
+          <a href={link.url} class="social-links__link" target="_blank">
+            {link.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</div>

@@ -9,8 +9,11 @@ dark_bg: true
 toc: true
 ---
 
+import ArticleContainer from "../../components/article/ArticleContainer.astro";
 import Lead from "../../components/shortcodes/Lead.astro";
 import Figure from "../../components/shortcodes/Figure.astro";
+
+<ArticleContainer>
 
 <Lead>Today I'm going to share some Sass (SCSS) mixins which I've found helpful when developing Bootstrap websites.</Lead>
 
@@ -415,3 +418,5 @@ You will need to re-launch Finder before these changes take effect. For more inf
 In my own personal fork of Bootstrap 4's grid I've added an additional <code>xl</code> breakpoint which kicks in at 1500px but using these mixins it's _very_ easy to add this functionality. I did need to add some additional CSS to my <code>\_grid.scss</code> partial but that was relatively simple.
 
 I hope these are useful. Let me know in the comments if you have any feedback or suggestions.
+
+</ArticleContainer>
