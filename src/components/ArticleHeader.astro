@@ -34,7 +34,7 @@ const monthShort = date.toLocaleString("en-US", {
   timeZone: "UTC",
 });
 const yearShort = date.toLocaleString("en-US", {
-  year: "2-digit",
+  year: "numeric",
   timeZone: "UTC",
 });
 
@@ -58,16 +58,10 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
       <span class="article-date__month article-header__date-month"
         >{monthShort}</span
       >
-      <span class="article-date__day article-header__date-day"
-        >{day}<sup
-          class="article-date__day-suffix article-header__date-day-suffix"
-          >{daySuffix}</sup
-        ></span
-      >
+      <span class="article-date__day article-header__date-day">{day}</span>
       <span class="article-date__year article-header__date-year"
-        >'{yearShort}</span
+        >{yearShort}</span
       >
-      <span class="article-date__dot-device"></span>
     </date>
 
     <div class="row row__page-header">
