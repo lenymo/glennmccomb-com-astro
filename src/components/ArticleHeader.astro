@@ -110,6 +110,8 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
           alt=""
           widths={[640, 1280, 1920]}
           sizes="100vw"
+          loading="eager"
+          fetchpriority="high"
         />
       </div>
     )
