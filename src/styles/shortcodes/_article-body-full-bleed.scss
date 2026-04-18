@@ -1,5 +1,3 @@
-
-
 //
 //  ARTICLE BODY FULL BLEED
 //––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -8,6 +6,7 @@
   margin-bottom: $base-margin-bottom-xs;
 
   img {
+    height: auto;
     max-width: none;
     width: 100%;
   }
@@ -27,7 +26,6 @@
   }
 }
 
-
 //
 //  MULTIPLE COLUMNS
 //––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -44,7 +42,6 @@
     }
   }
 }
-
 
 //
 //  DARK BG
