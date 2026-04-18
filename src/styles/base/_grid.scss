@@ -1,0 +1,88 @@
+//
+//  BOOTSTRAP 4 GRID
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@use "abstracts/variables" as vars;
+@use "abstracts/media-queries" as media;
+
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: vars.$gutter;
+  padding-right: vars.$gutter;
+  position: relative;
+}
+
+@include media.respond-above(xs) {
+  .container {
+    max-width: 100%;
+    width: 540px;
+  }
+}
+
+@include media.respond-above(sm) {
+  .container {
+    max-width: 100%;
+    width: 720px;
+  }
+}
+
+@include media.respond-above(md) {
+  .container {
+    max-width: 100%;
+    width: 960px;
+  }
+}
+
+@include media.respond-above(lg) {
+  .container {
+    max-width: 100%;
+    width: 1140px;
+  }
+}
+
+.container-fluid {
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: vars.$gutter;
+  padding-left: vars.$gutter;
+  position: relative;
+}
+
+.row {
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: vars.$gutter * -1;
+  margin-left: vars.$gutter * -1;
+}
+
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}

@@ -1,0 +1,81 @@
+//
+//  HEADER
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@use "sass:color";
+
+//
+//  STYLES
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-header {
+  background-color: $site-header-bg-color;
+  background: linear-gradient(
+    0,
+    $color-primary,
+    color.adjust($color-primary, $lightness: -2.5%)
+  );
+  left: 0;
+  padding: $site-header-padding;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: $z-index-site-header;
+}
+
+@include respond-above(sm) {
+  .site-header {
+    border-bottom: 5px solid $color-primary;
+    border-top: 5px solid $color-primary-darkest;
+  }
+}
+
+//
+//  TRANSPARENT SITE HEADER
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.-has-transparent-site-header {
+  .site-header {
+    background: rgba($black, 0.15);
+    border-bottom-color: transparent;
+    border-top-color: $color-gray-1;
+
+    .site-header__logo-svg {
+      .circle,
+      .circle-outer {
+        fill: transparent;
+      }
+
+      #g,
+      #m {
+        use {
+          fill: $white;
+        }
+      }
+    }
+
+    .site-header__logo-shadow {
+      background-color: rgba($black, 0);
+    }
+  }
+}
+
+@include respond-below(sm) {
+  .-has-transparent-site-header {
+    .site-header {
+      transition: background 0.2s ease;
+    }
+  }
+}
+
+//
+//  TRANSPARENT SITE HEADER (MENU OPEN)
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.-has-transparent-site-header {
+  &.site-nav-is-open {
+    .site-header {
+      background-color: $site-header-bg-color;
+    }
+  }
+}

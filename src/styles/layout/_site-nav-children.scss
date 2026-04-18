@@ -1,0 +1,99 @@
+
+
+//
+//  SITE NAV CHILDREN
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+//
+//  DROPDOWN
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__child-list {
+  background-color: $site-nav-dropdown-bg-color;
+  margin-bottom: $gutter * .5;
+  text-align: center;
+  width: $site-nav-dropdown-width-sm;
+}
+
+@include respond-above(sm) {
+  .site-nav__child-list {
+    border-top: 5px solid $color-primary;
+    border-bottom: 5px solid $color-primary-darker;
+    box-shadow: 0 10px 15px rgba($black, .1);
+    display: none;
+    left: 0;
+    margin-bottom: 0;
+    position: absolute;
+    text-align: left;
+    width: $site-nav-dropdown-width-md;
+  }
+
+  // Hover state.
+  .site-nav__item {
+    &.-has-children {
+      &:hover {
+        .site-nav__child-list {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+
+//
+//  ITEM
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__child-item {
+  font-weight: normal;
+}
+
+
+
+//
+//  LINK
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__child-link {
+  color: $site-nav-dropdown-item-font-color;
+  display: block;
+  padding: $site-nav-dropdown-item-padding-sm;
+}
+
+@include respond-above(sm) {
+  .site-nav__child-link {
+    padding: $site-nav-dropdown-item-padding-md;
+    transition: all .2s ease;
+
+    &:hover {
+      background-color: $site-nav-dropdown-bg-color-hover;
+      color: $site-nav-dropdown-item-font-color-hover;
+    }
+  }
+}
+
+
+//
+//  TRANSPARENT SITE HEADER
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@include respond-above(sm) {
+  .-has-transparent-site-header {
+
+    // The <ul>.
+    .site-nav__child-list {
+      border-bottom: transparent;
+      border-top: transparent;
+      background-color: rgba($black, .15);
+    }
+  
+    // The link.
+    .site-nav__child-link {
+      &:hover {
+        background-color: rgba($black, .1)
+      }
+    }
+  }
+}

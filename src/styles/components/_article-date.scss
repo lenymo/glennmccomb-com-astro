@@ -1,0 +1,102 @@
+
+
+//
+//  ARTICLE DATE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+$article-date-year-size: 30px;
+
+
+//
+//  VARIABLES
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+$article-date-font-family: $heading-font-family;
+$article-date-size: 70px;
+
+
+//
+//  DATE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.article-date {
+  background: rgba($white, .75);
+  border-radius: 50%;
+  box-shadow: 0 0 0 7px rgba($black, .05);
+  display: block;
+  font-family: $article-date-font-family;
+  height: $article-date-size;
+  padding: 12px;
+  text-align: center;
+  width: $article-date-size;
+  z-index: $z-index-article-date;
+}
+
+
+//
+//  MONTH
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.article-date__month {
+  display: block;
+  font-size: rem(14px);
+  font-weight: bold;
+  letter-spacing: rem(.5px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+
+//
+//  DAY
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.article-date__day {
+  display: block;
+  font-size: rem(36px);
+  font-weight: bold;
+  line-height: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.article-date__day-suffix {
+  display: none; // <-- Hidden.
+  font-size: rem(14px);
+  text-transform: uppercase;
+}
+
+
+//
+//  YEAR
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.article-date__year {
+  background: rgba($white, .75);
+  border-radius: 50%;
+  bottom: -$gutter * 1.25;
+  box-shadow: 0 0 0 7px rgba($white, .075);
+  font-size: rem(14px);
+  font-weight: bold;
+  height: $article-date-year-size;
+  left: 95%;
+  letter-spacing: .075em;
+  line-height: $article-date-year-size;
+  opacity: .66;
+  position: absolute;
+  transform: translateX(-50%);
+  width: $article-date-year-size;
+  z-index: 0;
+}
+
+.article-date__dot-device {
+  background: rgba($white, .75);
+  border-radius: 50%;
+  bottom: -$gutter * 2;
+  box-shadow: 0 0 0 7px rgba($white, .075);
+  height: $article-date-year-size * 0.333;
+  left: 125%;
+  opacity: .333;
+  position: absolute;
+  width: $article-date-year-size * 0.333;
+}

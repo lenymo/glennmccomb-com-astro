@@ -1,0 +1,193 @@
+//
+//  SITE NAV
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@use "sass:color";
+
+//
+//  NAV
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav {
+  background: $site-nav-bg-color;
+  display: inline-block;
+
+  > .container {
+    position: static;
+  }
+}
+
+@include respond-above(sm) {
+  .site-nav {
+    float: right;
+    vertical-align: top;
+  }
+}
+
+//
+//  ITEM
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__item {
+  display: inline-block;
+  font-weight: bold;
+  width: 100%;
+}
+
+@include respond-above(sm) {
+  .site-nav__item {
+    width: auto;
+
+    &.-has-children {
+      position: relative;
+    }
+  }
+}
+
+//
+//  LINK
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__link {
+  background: $site-nav-item-bg-color;
+  color: $site-nav-item-font-color;
+  display: block;
+  padding: $site-nav-item-padding;
+  transition: all 0.15s ease;
+}
+
+// Current item.
+.site-nav__item {
+  &.-is-current {
+    .site-nav__link {
+      background: $site-nav-item-current-bg-color;
+      color: $site-nav-item-current-font-color;
+    }
+  }
+}
+
+@include respond-above(sm) {
+  .site-nav__link {
+    padding: $site-nav-item-padding-md;
+    position: relative;
+
+    &:focus {
+      color: $white;
+    }
+  }
+}
+
+//
+//  ACTIVE INDICATOR
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@include respond-above(sm) {
+  // Shared.
+  .site-nav__link {
+    &::before {
+      background-color: transparent;
+      content: "";
+      height: 0;
+      left: 0;
+      margin-top: -5px;
+      position: absolute;
+      top: 0;
+      transition: all 0.333s ease;
+      width: 100%;
+    }
+  }
+
+  // Hover effect.
+  .site-nav__item {
+    &:hover {
+      .site-nav__link {
+        background: $site-nav-item-bg-color-hover;
+        color: $site-nav-item-font-color-hover;
+
+        &::before {
+          background-color: color.adjust($color-primary, $lightness: 20%);
+          box-shadow: 0 0 20px rgba($black, 0.333);
+          height: 5px;
+        }
+      }
+    }
+  }
+
+  // Current item.
+  .site-nav__item {
+    &.-is-current {
+      .site-nav__link {
+        &::before {
+          background-color: $site-nav-item-current-border-color;
+          box-shadow: 0 0 20px rgba($white, 0.5);
+          box-shadow: 0 0 25px rgba($white, 0.5), 0 0 2px rgba($black, 0.75);
+          height: 5px;
+          transition: all 0.1s ease;
+        }
+      }
+    }
+
+    // Current item over.
+    &:hover {
+      &.-is-current {
+        .site-nav__link {
+          &::before {
+            box-shadow: 0 0 30px rgba($white, 0.75);
+            box-shadow: 0 0 30px rgba($white, 0.75), 0 0 2px rgba($black, 1);
+            transform: scaleX(1.025) scaleY(1.1);
+          }
+        }
+      }
+    }
+  }
+}
+
+//
+//  LINK CARET
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.site-nav__link-caret {
+  display: none;
+}
+
+@include respond-above(sm) {
+  .site-nav__link-caret {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid $site-nav-item-font-color;
+    display: inline-block;
+    height: 0;
+    vertical-align: middle;
+    width: 0;
+  }
+}
+
+//
+//  TRANSPARENT HEADER
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+@include respond-above(sm) {
+  .-has-transparent-site-header {
+    .site-nav__item {
+      margin-bottom: -5px;
+      margin-top: -5px;
+
+      &.-is-current {
+        .site-nav__link {
+          &::before {
+            margin-top: 0;
+          }
+        }
+      }
+    }
+
+    .site-nav__link {
+      padding-bottom: 20px;
+      padding-top: 20px;
+
+      &::before {
+        margin-top: 0;
+      }
+    }
+  }
+}

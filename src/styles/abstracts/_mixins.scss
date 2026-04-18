@@ -1,0 +1,25 @@
+
+
+//
+//  MIXINS
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+// Style the placeholder of text inputs.
+// Usage @include placeholder{color:$white;}
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    @content;
+  }
+
+  &:-moz-placeholder {
+    @content;
+  }
+
+  &::-moz-placeholder {
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    @content;
+  }
+}

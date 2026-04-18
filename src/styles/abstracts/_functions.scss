@@ -1,0 +1,9 @@
+//
+//  FUNCTIONS
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+// Pixels to REM
+// Usage: font-size: rem(37px);
+@function rem($px, $base: $base-font-size) {
+  @return calc($px / $base) * 1rem;
+}

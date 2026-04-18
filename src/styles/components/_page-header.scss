@@ -1,0 +1,155 @@
+
+
+//
+//  PAGE HEADER
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+
+//
+//  STYLES
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.section__page-header {
+  background-color: $page-header-bg;
+  background-position: 50% 50%;
+  background-size: cover;
+  overflow: hidden;
+  padding: $page-header-padding-top-xs 0 $page-header-padding-bottom-xs;
+  position: relative;
+}
+
+@include respond-above(xs) {
+  .section__page-header {
+    padding: $page-header-padding-top-sm 0 $page-header-padding-bottom-sm;
+  }
+}
+
+@include respond-above(sm) {
+  .section__page-header {
+    padding: $page-header-padding-top-md 0 $page-header-padding-bottom-md;
+  }
+}
+
+@include respond-above(md) {
+  .section__page-header {
+    padding: $page-header-padding-top-lg 0 $page-header-padding-bottom-lg;
+  }
+}
+
+@include respond-above(lg) {
+  .section__page-header {
+    padding: $page-header-padding-top-xl 0 $page-header-padding-bottom-xl;
+  }
+}
+
+.container__page-header {
+  position: relative;
+  z-index: $z-index-page-header-container;
+}
+
+
+//
+//  SUPER TITLE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.page-header__super-title {
+  margin-bottom: $gutter * .5;
+}
+
+
+//
+//  TITLE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.page-header__title {
+  letter-spacing: -.025em;
+  line-height: 1.1;
+  margin-bottom: 0;
+}
+
+@include respond-above(lg) {
+  .page-header__title {
+    font-size: 72px;
+  }
+}
+
+
+//
+//  SUB TITLE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.page-header__sub-title {
+  margin-top: $gutter;
+}
+
+
+
+//
+//  DARK BACKGROUND
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.section__page-header {
+  &.-has-dark-bg {
+    background-color: $page-header-bg-dark;
+
+    .page-header__super-title {
+      color: rgba($white, .4);
+    }
+
+    .page-header__title {
+      color: $page-header-title-font-color-dark;
+    }
+  }
+}
+
+
+//
+//  BACKGROUND IMAGE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.page-header__featured-image {
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 100%;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.section__page-header {
+  &.-has-featured {
+    position: relative;
+
+    .container__page-header {
+      z-index: 1;
+    }
+  }
+}
+
+
+//
+//  BACKGROUND IMAGE - PICTURE
+//––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.page-header__featured-image-picture {
+  display: none;
+}
+
+.section__page-header {
+  &.-has-featured {
+    .page-header__featured-image-picture {
+      display: block;
+      height: 100%;
+      position: absolute;
+      width: 100%;
+    }
+
+    .page-header__featured-image-picture-img {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+---
+import { mainNav, type NavItem } from "../data/nav";
+
+const currentPath = Astro.url.pathname;
+
+const isCurrent = (item: NavItem) => {
+  if (currentPath === item.url) return true;
+  if (item.url !== "/" && currentPath.startsWith(item.url)) return true;
+  return false;
+};
+
+const hasCurrentChild = (item: NavItem) =>
+  !!item.children?.some((child) => isCurrent(child));
+---
+
+<nav class="site-nav">
+  <ul class="site-nav__list">
+    {
+      mainNav.map((item) => {
+        const current = isCurrent(item);
+        const childCurrent = hasCurrentChild(item);
+        const hasChildren = !!item.children?.length;
+        const itemClasses = [
+          "site-nav__item",
+          `site-nav_item--${item.identifier}`,
+          current || childCurrent ? "-is-current" : "",
+          hasChildren ? "-has-children" : "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+        const linkClasses = [
+          "site-nav__link",
+          hasChildren ? "-has-children" : "",
+        ]
+          .filter(Boolean)
+          .join(" ");
+        return (
+          <li class={itemClasses}>
+            <a href={item.url} class={linkClasses}>
+              {item.name}
+              {hasChildren && <span class="site-nav__link-caret" />}
+            </a>
+            {hasChildren && (
+              <ul class="site-nav__child-list">
+                {item.children!.map((child) => (
+                  <li
+                    class={`site-nav__child-item${isCurrent(child) ? " -is-current" : ""}`}
+                  >
+                    <a href={child.url} class="site-nav__child-link">
+                      {child.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        );
+      })
+    }
+  </ul>
+</nav>
+<a href="javascript:void(0);" class="site-nav__nav-toggle u-hidden-md-up"
+  >Menu</a
+>
