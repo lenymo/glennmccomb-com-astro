@@ -1,6 +1,8 @@
 ---
+import { Image } from "astro:assets";
+
 interface Props {
-  src: string;
+  src: string | ImageMetadata;
   alt?: string;
   caption?: string;
   url?: string;
@@ -9,32 +11,24 @@ interface Props {
 
 const { src, alt = "", caption, url, class: className } = Astro.props;
 
-const figureClass = ["img-shortcode", "lqip__figure", className]
-  .filter(Boolean)
-  .join(" ");
-
-const lqipSrc = src.replace(/\.(jpg|png)$/i, "-lqip.jpg");
+const figureClass = ["img-shortcode", className].filter(Boolean).join(" ");
 ---
 
-<figure class={figureClass} data-full={src}>
-  <div class="img-shortcode__img-wrapper lqip__wrapper">
+<figure class={figureClass}>
+  <div class="img-shortcode__img-wrapper">
     {
       url ? (
         <a href={url}>
-          <img
-            class="img-shortcode__img lqip__img -is-loaded"
-            src={src}
-            alt={alt}
-            data-lqip={lqipSrc}
-          />
+          {typeof src === "string" ? (
+            <img class="img-shortcode__img" src={src} alt={alt} />
+          ) : (
+            <Image class="img-shortcode__img" src={src} alt={alt} />
+          )}
         </a>
+      ) : typeof src === "string" ? (
+        <img class="img-shortcode__img" src={src} alt={alt} />
       ) : (
-        <img
-          class="img-shortcode__img lqip__img -is-loaded"
-          src={src}
-          alt={alt}
-          data-lqip={lqipSrc}
-        />
+        <Image class="img-shortcode__img" src={src} alt={alt} />
       )
     }
   </div>

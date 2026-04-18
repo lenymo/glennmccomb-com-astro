@@ -1,7 +1,7 @@
 ---
 title: Rust survival tips for newbies
 date: 2018-01-14T01:32:52.000Z
-featured: /img/uploads/featured-image-article-rust-survival-tips.jpg
+featured: ./img/featured.jpg
 categories:
   - Gaming
 custom_class: rust-survival-tips
@@ -11,14 +11,23 @@ dark_bg: true
 toc: true
 ---
 
-import ArticleContainer from "../../components/article/ArticleContainer.astro";
-import ArticleContainerFullWidth from "../../components/article/ArticleContainerFullWidth.astro";
-import Lead from "../../components/shortcodes/Lead.astro";
-import Img from "../../components/shortcodes/Img.astro";
-import Figure from "../../components/shortcodes/Figure.astro";
-import Row from "../../components/shortcodes/Row.astro";
-import Col from "../../components/shortcodes/Col.astro";
-import YouTube from "../../components/shortcodes/YouTube.astro";
+import ArticleContainer from "../../../components/article/ArticleContainer.astro";
+import ArticleContainerFullWidth from "../../../components/article/ArticleContainerFullWidth.astro";
+import Lead from "../../../components/shortcodes/Lead.astro";
+import Img from "../../../components/shortcodes/Img.astro";
+import Figure from "../../../components/shortcodes/Figure.astro";
+import Row from "../../../components/shortcodes/Row.astro";
+import Col from "../../../components/shortcodes/Col.astro";
+import YouTube from "../../../components/shortcodes/YouTube.astro";
+
+import mushrooms from "./img/mushrooms.jpg";
+import cornPumpkins from "./img/corn-pumpkins.jpg";
+import fishTrap from "./img/fish-trap.jpg";
+import sunset from "./img/sunset.jpg";
+import hiddenChest from "./img/hidden-chest.gif";
+import redBarrel from "./img/red-barrel.jpg";
+import miningCart from "./img/mining-cart.jpg";
+import lighthouseRecycler from "./img/lighthouse-recycler.jpg";
 
 <ArticleContainer>
 
@@ -76,13 +85,13 @@ In the desert you'll get a small amount of cloth and cactus flesh when you bang 
   <Row>
     <Col>
       <Img
-        src="/img/uploads/article-rust-survival-tips-mushrooms.jpg"
+        src={mushrooms}
         caption="Mushrooms growing in a grassy forest area."
       />
     </Col>
     <Col>
       <Img
-        src="/img/uploads/article-rust-survival-tips-corn-pumpkins.jpg"
+        src={cornPumpkins}
         caption="Corn and pumpkins growing along both sides of a river."
       />
     </Col>
@@ -122,7 +131,7 @@ TL;DR: Don't bother fishing.
 If you're lucky you'll catch a trout. If you're not, you'll catch minnows. Cooked trout is very nutritious and you'll get some bonus animal fat but minnows are not good.
 
 <Img
-  src="/img/uploads/article-rust-survival-tips-fish-trap.jpg"
+  src={fishTrap}
   caption="A pair of fish traps standing out like dog's balls."
   alt="Fish trap"
 />
@@ -132,10 +141,7 @@ The problem with fishing is that while you're waiting to catch a fish, any other
 </ArticleContainer>
 
 <ArticleContainerFullWidth>
-  <Img
-    src="/img/uploads/article-rust-survival-tips-sunset.jpg"
-    alt="Rust sunset"
-  />
+  <Img src={sunset} alt="Rust sunset" />
 </ArticleContainerFullWidth>
 
 <ArticleContainer>
@@ -180,7 +186,7 @@ The reason this is important is that you're going to bury your stash underground
 Because of the difficulties of locating a stash some people prefer a [wooden storage box](https://rustlabs.com/item/wood-storage-box). While this is easier for you to find, it's also much easier for other players to find. Note that it's possible to find a box-sized rock to hide your box in, which works a treat if you can pull it off.
 
 <Figure
-  src="/img/uploads/article-rust-survival-tips-hidden-chest.gif"
+  src={hiddenChest}
   caption="My very poor attempt at hiding a wooden chest."
 />
 
@@ -248,18 +254,10 @@ The biggest obstacle to crafting a furnace is the 50 low grade fuel. This can be
 <ArticleContainerFullWidth container>
   <Row>
     <Col>
-      <Img
-        src="/img/uploads/article-rust-survival-tips-red-barrel.jpg"
-        caption="An oil barrel."
-        alt="Oil barrel"
-      />
+      <Img src={redBarrel} caption="An oil barrel." alt="Oil barrel" />
     </Col>
     <Col>
-      <Img
-        src="/img/uploads/article-rust-survival-tips-mining-cart.jpg"
-        caption="Mining cart."
-        alt="Mining cart"
-      />
+      <Img src={miningCart} caption="Mining cart." alt="Mining cart" />
     </Col>
   </Row>
 </ArticleContainerFullWidth>
@@ -277,7 +275,7 @@ A good way to get metal early on is using a recycler. These can be found at most
 <small>**NOTE:** I mention these monuments because they have lower tier loot crates and are less attractive to potentially experienced (and probably armed) players.</small>
 
 <Img
-  src="/img/uploads/article-rust-survival-tips-lighthouse-recycler.jpg"
+  src={lighthouseRecycler}
   caption="The recycler at the lighthouse."
   alt="Lighthouse recycler"
 />

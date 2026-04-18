@@ -1,9 +1,11 @@
 ---
+import { Image } from "astro:assets";
+
 interface Props {
   title: string;
   date: Date;
   categories: string[];
-  featured?: string;
+  featured?: ImageMetadata;
   darkBg?: boolean;
   superTitle?: string;
   subTitle?: string;
@@ -20,21 +22,21 @@ const {
 } = Astro.props;
 
 const day = date.getUTCDate();
-const daySuffix =
-  [1, 21, 31].includes(day)
-    ? "st"
-    : [2, 22].includes(day)
-      ? "nd"
-      : [3, 23].includes(day)
-        ? "rd"
-        : "th";
+const daySuffix = [1, 21, 31].includes(day)
+  ? "st"
+  : [2, 22].includes(day)
+    ? "nd"
+    : [3, 23].includes(day)
+      ? "rd"
+      : "th";
 const monthShort = date.toLocaleString("en-US", {
   month: "short",
   timeZone: "UTC",
 });
-const yearShort = date
-  .toLocaleString("en-US", { year: "2-digit", timeZone: "UTC" })
-  .replace(/^(\d{2})$/, "$1");
+const yearShort = date.toLocaleString("en-US", {
+  year: "2-digit",
+  timeZone: "UTC",
+});
 
 const sectionClasses = [
   "section",
@@ -48,17 +50,6 @@ const sectionClasses = [
   .join(" ");
 
 const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
-
-const uploads = "/img/uploads/";
-let featuredBase = "";
-let featuredExt = "";
-if (featured) {
-  const match = featured.match(/^(.*?)(\.(?:jpg|png))$/i);
-  if (match) {
-    featuredBase = match[1].replace(uploads, "");
-    featuredExt = match[2];
-  }
-}
 ---
 
 <section class={sectionClasses}>
@@ -84,11 +75,7 @@ if (featured) {
         class="col-8 offset-3 col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2"
       >
         <div class="page-header__hgroup article-header__hgroup">
-          {
-            superTitle && (
-              <h6 class="page-header__super-title">{superTitle}</h6>
-            )
-          }
+          {superTitle && <h6 class="page-header__super-title">{superTitle}</h6>}
           <h1 class="page-header__title article-header__title">{title}</h1>
           {subTitle && <p class="page-header__sub-title">{subTitle}</p>}
           {
@@ -115,29 +102,15 @@ if (featured) {
   </div>
 
   {
-    featured && featuredBase && (
+    featured && (
       <div class="page-header__featured-image -is-object-fit-parent">
-        <picture
-          class="page-header__featured-image-picture -uses-object-fit"
-          data-source={`${uploads}${featuredBase}${featuredExt}`}
-        >
-          <source
-            srcset={`${uploads}${featuredBase}-sm${featuredExt}`}
-            media="(max-width: 575px)"
-          />
-          <source
-            srcset={`${uploads}${featuredBase}-sm${featuredExt} 1x, ${uploads}${featuredBase}${featuredExt} 2x`}
-            media="(min-width: 576px) and (max-width: 767px)"
-          />
-          <source
-            srcset={`${uploads}${featuredBase}${featuredExt}`}
-            media="(min-width: 768px)"
-          />
-          <img
-            class="page-header__featured-image-picture-img"
-            srcset={`${uploads}${featuredBase}${featuredExt}`}
-          />
-        </picture>
+        <Image
+          class="page-header__featured-image-picture-img -uses-object-fit"
+          src={featured}
+          alt=""
+          widths={[640, 1280, 1920]}
+          sizes="100vw"
+        />
       </div>
     )
   }

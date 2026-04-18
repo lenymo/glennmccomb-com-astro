@@ -1,7 +1,7 @@
 ---
 title: Useful Sass (SCSS) media query mixins for Bootstrap
 date: 2018-02-11T15:31:24+11:00
-featured: /img/uploads/featured-image-sass-media-query-mixins.jpg
+featured: ./img/featured.jpg
 categories:
   - Development
 featured_opacity: "0.15"
@@ -9,9 +9,10 @@ dark_bg: true
 toc: true
 ---
 
-import ArticleContainer from "../../components/article/ArticleContainer.astro";
-import Lead from "../../components/shortcodes/Lead.astro";
-import Figure from "../../components/shortcodes/Figure.astro";
+import ArticleContainer from "../../../components/article/ArticleContainer.astro";
+import Lead from "../../../components/shortcodes/Lead.astro";
+import Figure from "../../../components/shortcodes/Figure.astro";
+import sublimeSnippets from "./img/sublime-snippets.gif";
 
 <ArticleContainer>
 
@@ -334,10 +335,7 @@ I found these mixins super handy in my day-to-day work but they were still somew
 
 ### Sublime Text snippets
 
-<Figure
-  src="/img/uploads/article-sass-media-query-mixins-sublime-snippets.gif"
-  caption="Sublime Text snippets in action."
-/>
+<Figure src={sublimeSnippets} caption="Sublime Text snippets in action." />
 
 Snippets are easy to add to Sublime Text, although [the syntax](http://sublimetext.info/docs/en/extensibility/snippets.html) can be a little tricky at first. They can be added via <code>Tools » Developer » New Snippet</code>.
 
