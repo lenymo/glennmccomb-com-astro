@@ -16,6 +16,7 @@ const articles = defineCollection({
       toc: z.boolean().default(false),
       page_header_super_title: z.string().optional(),
       page_header_sub_title: z.string().optional(),
+      page_header_bg_color: z.string().optional(),
       description: z.string().optional(),
     }),
 });
