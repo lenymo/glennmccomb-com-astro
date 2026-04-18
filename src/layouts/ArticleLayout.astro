@@ -1,0 +1,112 @@
+---
+import Layout from "./Layout.astro";
+import ArticleHeader from "../components/ArticleHeader.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { data } = article;
+
+const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+
+const bodyClasses = [
+  "single-article",
+  data.custom_class,
+  data.transparent_header && "-has-transparent-site-header",
+  ...data.categories.map((c) => `article-category-${slugify(c)}`),
+]
+  .filter(Boolean)
+  .join(" ");
+
+const day = data.date.getUTCDate();
+const daySuffix = [1, 21, 31].includes(day)
+  ? "st"
+  : [2, 22].includes(day)
+    ? "nd"
+    : [3, 23].includes(day)
+      ? "rd"
+      : "th";
+const monthLong = data.date.toLocaleString("en-US", {
+  month: "long",
+  timeZone: "UTC",
+});
+const year = data.date.getUTCFullYear();
+---
+
+<Layout
+  title={data.title}
+  description={data.description}
+  bodyClass={bodyClasses}
+>
+  <ArticleHeader
+    title={data.title}
+    date={data.date}
+    categories={data.categories}
+    featured={data.featured}
+    darkBg={data.dark_bg}
+    superTitle={data.page_header_super_title}
+    subTitle={data.page_header_sub_title}
+  />
+
+  <section class="section section__article-body">
+    <article class="article-body">
+      <div class="container">
+        <div class="row">
+          <div
+            class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
+          >
+            <div class="article-body__content">
+              <slot />
+            </div>
+
+            <div class="article-author">
+              <img
+                src="/img/photo-glenn-mccomb.jpg"
+                class="article-author__photo"
+                alt="Glenn McComb"
+              />
+              <h3 class="article-author__name">
+                <a
+                  href="https://twitter.com/lenymo"
+                  class="article-author__name-link">Glenn McComb</a
+                >
+              </h3>
+              <p class="article-author__date">
+                <span class="article-author__date-day"
+                  >{day}<sup class="article-author__date-day-suffix"
+                    >{daySuffix}</sup
+                  ></span
+                >
+                <span class="article-author__date-month">{monthLong}</span>
+                <span class="article-author__date-year">{year}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <section class="section section__article-footer">
+    <div class="container">
+      <div class="row">
+        <div
+          class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2"
+        >
+          <div class="article-comments">
+            <h2 class="article-comments__title">Leave a comment</h2>
+            <div class="article-comments__disqus-wrapper">
+              <div class="article-comments__placeholder">
+                Loading comments...
+              </div>
+              <div class="disqus"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

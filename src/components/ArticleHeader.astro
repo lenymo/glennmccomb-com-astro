@@ -1,0 +1,144 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  categories: string[];
+  featured?: string;
+  darkBg?: boolean;
+  superTitle?: string;
+  subTitle?: string;
+}
+
+const {
+  title,
+  date,
+  categories,
+  featured,
+  darkBg = false,
+  superTitle,
+  subTitle,
+} = Astro.props;
+
+const day = date.getUTCDate();
+const daySuffix =
+  [1, 21, 31].includes(day)
+    ? "st"
+    : [2, 22].includes(day)
+      ? "nd"
+      : [3, 23].includes(day)
+        ? "rd"
+        : "th";
+const monthShort = date.toLocaleString("en-US", {
+  month: "short",
+  timeZone: "UTC",
+});
+const yearShort = date
+  .toLocaleString("en-US", { year: "2-digit", timeZone: "UTC" })
+  .replace(/^(\d{2})$/, "$1");
+
+const sectionClasses = [
+  "section",
+  "section__page-header",
+  featured && "-has-featured",
+  darkBg && "-has-dark-bg",
+  "-has-background-device",
+  "section__article-header",
+]
+  .filter(Boolean)
+  .join(" ");
+
+const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+
+const uploads = "/img/uploads/";
+let featuredBase = "";
+let featuredExt = "";
+if (featured) {
+  const match = featured.match(/^(.*?)(\.(?:jpg|png))$/i);
+  if (match) {
+    featuredBase = match[1].replace(uploads, "");
+    featuredExt = match[2];
+  }
+}
+---
+
+<section class={sectionClasses}>
+  <div class="container container__page-header">
+    <date class="article-date article-header__date">
+      <span class="article-date__month article-header__date-month"
+        >{monthShort}</span
+      >
+      <span class="article-date__day article-header__date-day"
+        >{day}<sup
+          class="article-date__day-suffix article-header__date-day-suffix"
+          >{daySuffix}</sup
+        ></span
+      >
+      <span class="article-date__year article-header__date-year"
+        >'{yearShort}</span
+      >
+      <span class="article-date__dot-device"></span>
+    </date>
+
+    <div class="row row__page-header">
+      <div
+        class="col-8 offset-3 col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2"
+      >
+        <div class="page-header__hgroup article-header__hgroup">
+          {
+            superTitle && (
+              <h6 class="page-header__super-title">{superTitle}</h6>
+            )
+          }
+          <h1 class="page-header__title article-header__title">{title}</h1>
+          {subTitle && <p class="page-header__sub-title">{subTitle}</p>}
+          {
+            categories.length > 0 && (
+              <ul class="article-header__categories">
+                {categories.map((category) => (
+                  <li
+                    class={`article-header__category article-header__category-${slugify(category)}`}
+                  >
+                    <a
+                      class="article-header__category-link"
+                      href={`/categories/${slugify(category)}`}
+                    >
+                      {category}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {
+    featured && featuredBase && (
+      <div class="page-header__featured-image -is-object-fit-parent">
+        <picture
+          class="page-header__featured-image-picture -uses-object-fit"
+          data-source={`${uploads}${featuredBase}${featuredExt}`}
+        >
+          <source
+            srcset={`${uploads}${featuredBase}-sm${featuredExt}`}
+            media="(max-width: 575px)"
+          />
+          <source
+            srcset={`${uploads}${featuredBase}-sm${featuredExt} 1x, ${uploads}${featuredBase}${featuredExt} 2x`}
+            media="(min-width: 576px) and (max-width: 767px)"
+          />
+          <source
+            srcset={`${uploads}${featuredBase}${featuredExt}`}
+            media="(min-width: 768px)"
+          />
+          <img
+            class="page-header__featured-image-picture-img"
+            srcset={`${uploads}${featuredBase}${featuredExt}`}
+          />
+        </picture>
+      </div>
+    )
+  }
+</section>
