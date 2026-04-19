@@ -71,7 +71,7 @@ The easiest way to output posts is on your site's home page using the `/layouts/
 
 Next within `index.html` we'll create a custom variable to handle pagination and determine which posts are retrieved.
 
-```hugo
+```html
 {{ $paginator := .Paginate (where .Data.Pages "Type" "posts") }}
 ```
 
@@ -81,7 +81,7 @@ Note that in this example I've used "posts" as the content name but it can be an
 
 Here's how we iterate over the `.Paginate` object:
 
-```hugo
+```html
 {{ range $paginator.Pages }}
   <div class="post">
     <h2 class="post__title">
@@ -106,7 +106,7 @@ Up to this point the Hugo code we've written is similar to [a standard list temp
 
 First we assign the `.Paginator` object to a `$paginator` variable.
 
-```hugo
+```html
 {{ $paginator := .Paginator }}
 ```
 

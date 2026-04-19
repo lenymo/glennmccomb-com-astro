@@ -1,0 +1,523 @@
+---
+title: Building a pure CSS animated SVG spinner
+date: 2019-04-23T09:00:11.000Z
+featured: ./img/featured.jpg
+categories:
+  - Development
+toc: true
+featured_opacity: "0.15"
+dark_bg: true
+custom_class: animated-svg-spinner
+---
+
+import "./styles.scss";
+import ArticleContainer from "../../../components/article/ArticleContainer.astro";
+import Lead from "../../../components/shortcodes/Lead.astro";
+import Row from "../../../components/shortcodes/Row.astro";
+import Col from "../../../components/shortcodes/Col.astro";
+import CircleSpinner from "./CircleSpinner.tsx";
+
+<ArticleContainer>
+
+<Lead>In this article I'll show you how to level up your loading indicators with a pure-CSS animated SVG loader inspired by Google's Chrome and YouTube spinner.</Lead>
+
+## What are we making?
+
+A good loading indicator helps users feel a sense of progress, and the spinner which Google uses for Chrome and YouTube is one of my favourites. If you haven't seen it, here's what I'll be showing you how to make:
+
+<CircleSpinner
+  svg="stroked full-rotation"
+  circle="stroked production stroke-length dash-offset-animated"
+  r={45}
+/>
+
+We'll be making use of a couple of very handy SVG-specific CSS properties called `stroke-dasharray` and `stroke-dashoffset`. Feel free to to skip to [the final code](#the-final-code) or check it out [on Codepen](https://codepen.io/lenymo/pen/qwKPov) to see how it works.
+
+<small>NOTE: This spinner will not work in IE 11 and below.</small>
+
+## Creating an SVG circle
+
+We'll start off with an [SVG circle](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle).
+
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="50" />
+</svg>
+```
+
+<CircleSpinner svg="basic" circle="basic" />
+
+In relatively units, the `<svg>`s `viewBox` is 100 x 100. The `<circle>`'s radius is exactly half that as defined by `r="50"` and it is positioned at `50` on both the `x` and `y` axis.
+
+We have styled the `<circle>` as follows:
+
+```scss
+circle {
+  max-width: 100px;
+  fill: #2f3d4c;
+}
+```
+
+If you haven't styled SVGs before, the `fill` property works much like `background-color`.
+
+## Adding stroke
+
+Next, we'll add a [stroke-width](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width) of `10` and remove the fill:
+
+```scss
+circle {
+  fill: transparent;
+  stroke: #2f3d4c;
+  stroke-width: 10;
+}
+```
+
+The stroke value of `10` is relative to the overall size of the `<svg>` element, as defined in its `viewBox` attribute.
+
+Here's how it looks:
+
+<CircleSpinner svg="stroked" circle="stroked" />
+
+Not ideal. The `<circle>`'s stroke is rendering outside the bounds of the parent `<svg>` element and by default, most browsers set the `overflow` property of SVGs to `hidden`.
+
+We could override this on our `<svg>` using `overflow: visible` but we're better off keeping the circle within the bounds of the parent SVG.
+
+To fix this issue, it would make sense for there to be a CSS property such as `stroke-position` which we could set to `inside` so as the stroke would render inside the path of our `<circle>`. Unfortunately, no such property exists and the stroke renders `5` relative units either side of the circle's path.
+
+Instead we have to reduce the `<circle>`'s radius by updating the `r` attribute from `50` to `45`.
+
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="45" />
+</svg>
+```
+
+This looks much better:
+
+<CircleSpinner svg="stroked" circle="stroked" r={45} />
+
+It's not ideal to hard-code the radius in this way but it's not possible to set it via CSS. It _does_ at least scale proportionately when we change the size of the parent `<svg>` element as demonstrated below.
+
+Half size:
+
+<CircleSpinner svg="stroked sm" circle="stroked" r={45} />
+
+Double size:
+
+<CircleSpinner svg="stroked 2x" circle="stroked" r={45} />
+
+Note that in both examples, despite a `stroke-width` of `10`, the stroke scales when the `<svg>` changes size.
+
+### Thicker stroke
+
+As the spinner gets smaller we may want to increase the `<circle>`'s stroke width so it's a little chunkier. However, when we increase the stroke width, the circle once again grows larger than the parent SVG, so we have to further decrease the circle's `r` attribute.
+
+<CircleSpinner svg="stroked sm" circle="stroked fat" r={45} />
+
+Below is the half-size circle with `stroke-width: 14` and `r="42"`.
+
+<CircleSpinner svg="stroked sm" circle="stroked fat" r={42} />
+
+## Changing the stroke's length
+
+Next up we'll change the length of the stroke using the [stroke-dasharray](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) and [stroke-dashoffset](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dashoffset) SVG attributes. They are both presentation attributes and can be styled via CSS, allowing us to utilise the power of CSS animations.
+
+### Stroke dashes
+
+The `stroke-dasharray` property is used to add dashes of varying lengths to a stroke. It's like `border-style: dashed` but _much_ more powerful. It accepts comma or space separated values which determine the length of a stroke's dashes and the gaps between them. We'll be using a single value which means dashes and gaps are of equal length.
+
+Here are some examples to demonstrate how it works:
+
+`stroke-dasharray: 5`
+
+<CircleSpinner svg="stroked" circle="stroked stroke-dash-array-short" r={45} />
+
+`stroke-dasharray: 24`
+
+<CircleSpinner svg="stroked" circle="stroked stroke-dash-array-medium" r={45} />
+
+We'll leverage this attribute to create a stroke dash which is the full circumference of our circle.
+
+`stroke-dasharray: 283`
+
+<CircleSpinner svg="stroked" circle="stroked stroke-length" r={45} />
+
+This looks much like our previous stroked circle but we can do a _lot_ more with it now.
+
+But first, we'll write some additional `<circle>` CSS.
+
+We can add rounded caps to the ends of the stroke by setting [stroke-linecap](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap) to `round`. To ensure our `<circle>` rotates from the middle when we apply transforms, we'll set `transform-origin` to `50% 50%`.
+
+```scss
+circle {
+  stroke-linecap: round;
+  transform-origin: 50% 50%;
+}
+```
+
+### Stroke dash offset
+
+Next we'll use `stroke-dashoffset` to shift the starting point of the dash.
+
+`stroke-dashoffset: 75`
+
+<CircleSpinner
+  svg="stroked"
+  circle="stroked production stroke-length stroke-length-long"
+  r={45}
+/>
+
+`stroke-dashoffset: 280`
+
+<CircleSpinner
+  svg="stroked"
+  circle="stroked production stroke-length stroke-length-short"
+  r={45}
+/>
+
+The values `75` and `280` will provide the start and end points for our CSS animation.
+
+## Calculating dash array and offset values
+
+You may be wondering how we arrived at the `stroke-dasharray` value of `283` which covers the full circumference of the circle. No, it was not plucked from thin air.
+
+When applied to an SVG circle, `stroke-dasharray` and `stroke-dashoffset` values cover a different portion of a circle's circumference depending on the circle's radius. Changes to the circle's radius also change its circumference which, consequently, changes the length of the dashes - even if `stroke-dasharray` values aren't changed.
+
+Our original `<circle>` had a radius of `50`, and thus its circumference was `314.16`. We calculate this using the formula `C = 2πR` which in our case is `2 x 3.1416 x 50 = 314.16`. By extension the circumference of our `<circle>` with radius of `45` is `282.74`, which we round up to `283`.
+
+Here is the same `stroke-dasharray` of `157` applied to `<circle>`'s with different radii.
+
+<Row>
+  <Col>
+    Radius 50:
+
+    <CircleSpinner
+      svg="stroked"
+      circle="stroked production stroke-dash-array-radius-example"
+      r={50}
+      overflowVisible
+    />
+  </Col>
+  <Col>
+    Radius 45:
+
+    <CircleSpinner
+      svg="stroked"
+      circle="stroked production stroke-dash-array-radius-example"
+      r={45}
+      overflowVisible
+    />
+  </Col>
+</Row>
+
+A `stroke-dasharray` of `157` will be `50%` of a circle with `r="50"` but `55.4%` of a circle with `r="45"`. We have to keep this in mind when adjusting the radius of a `<circle>` because it can throw _everything_ out. It's worth noting that these issues are avoided entirely if we simply set `overflow: visible` on the parent `<svg>`.
+
+It's also worth mentioning that although both `stroke-dasharray` and `stroke-dashoffset` accept percentage values, these are relative to the parent `<svg>`'s `viewBox`, so in our case a stroke dash array of `100%` is equivalent to `100` relative units.
+
+It would be great if `stroke-dasharray: 100%` covered the entire circumference of our circle, but alas, that's not how it works.
+
+### A handy Sass function
+
+If you're into Sass I wrote a function which takes the legwork out of these calculations.
+
+```scss
+@function get-dash-value($radius, $percentage) {
+  // Using $radius, calculate circumference.
+  $circumference: 2 * 3.1415927 * $radius;
+
+  // Convert percentage to decimal.
+  // i.e. 50% = 0.5.
+  $percentage-as-decimal: $percentage / 100%;
+
+  // Return unit value.
+  @return $circumference * $percentage-as-decimal;
+}
+```
+
+It takes the radius of the circle and the percentage of the circle that you want the dash value to cover, and returns the correct value in relative units. It works for both array and offset values.
+
+Unfortunately you do still have to pass the radius, but if you set it up as a Sass variable you'll only need to declare it once. Check out the function in action [in this codepen](https://codepen.io/lenymo/pen/EJeVgG).
+
+## Adding animation
+
+With that out of the way, it's time to work on some animations.
+
+We'll add a keyframe animation to the `<circle>` which alternates between the `75` and `280` `stroke-dashoffset` values. We won't use this exact animation in our final spinner but it helps illustrate how it will work.
+
+```scss
+// Keyframe animation which transitions between
+// stroke-dashoffset values.
+@keyframes circle--animation {
+  0% {
+    stroke-dashoffset: 75;
+  }
+
+  50% {
+    stroke-dashoffset: 280;
+  }
+}
+
+// Long form animation rules applied to circle element.
+circle {
+  animation-duration: 1.4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+  animation-name: circle--animation;
+}
+
+// More succinct animation shorthand.
+circle {
+  animation: 1.4s ease-in-out infinite both circle--animation;
+}
+```
+
+<small>
+  NOTE: The animation shorthand is shown as an alternative. Don't use them both
+  at the same time.
+</small>
+
+And here's the animation:
+
+<CircleSpinner
+  svg="stroked"
+  circle="stroked production stroke-length dash-offset-animated-basic"
+  r={45}
+/>
+
+### Combining multiple animations
+
+Next we'll rotate the parent `<svg>` element while the `<circle>` animation shown above continues to run.
+
+```scss
+@keyframes svg--animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+svg {
+  svg {
+    animation: 2s linear infinite svg--animation;
+  }
+}
+```
+
+The `<svg>` animation is simple - it loops infinitely and smoothly rotates 360 degrees every 2 seconds.
+
+Check it out:
+
+<CircleSpinner
+  svg="stroked full-rotation"
+  circle="stroked production stroke-length dash-offset-animated-basic"
+  r={45}
+/>
+
+Both animations loop infinitely and the 0.6 second difference in duration means they're staggered and only meet exactly every 14 seconds.
+
+### Adding pauses and rotations
+
+Our spinner is getting close, but it's not quite there yet.
+
+The stroke should appear to continuously chase itself without ever catching up. Currently the "head" of the stroke appears to move backwards. We don't want that. Our `<svg>` animation is fine but we need to improve the `<circle>` keyframes with some pauses and rotation transforms.
+
+```scss
+@keyframes circle--animation {
+  // Start with short dash for 25% of animation.
+  0%,
+  25% {
+    stroke-dashoffset: 280;
+    transform: rotate(0);
+  }
+
+  // Very long dash, slightly rotated for 25% of animation.
+  // This is the "head" of the stroke getting away from the tail.
+  50%,
+  75% {
+    stroke-dashoffset: 75;
+    transform: rotate(45deg);
+  }
+
+  // Back to short dash, rotated back to starting position.
+  // This is the "tail" of the stroke catching up to the head.
+  // The stroke moves backwards while at the same time the
+  // entire circle is rotated forward to return to its
+  // starting position.
+  100% {
+    stroke-dashoffset: 280;
+    transform: rotate(360deg);
+  }
+}
+
+circle {
+  animation: 1.4s ease-in-out infinite both circle--animation;
+}
+```
+
+Here is the `<circle>` animation on its own.
+
+<CircleSpinner
+  svg="stroked"
+  circle="stroked production stroke-length dash-offset-animated"
+  r={45}
+/>
+
+And here it is in combination with the `<svg>`'s rotation animation.
+
+<CircleSpinner
+  svg="stroked full-rotation"
+  circle="stroked production stroke-length dash-offset-animated"
+  r={45}
+/>
+
+And there we go!
+
+To get a better sense of how the two animations work together, hover over the circle to see the bounding square of the `<svg>` as it rotates.
+
+The circle's stroke is still swinging back and forth just like before (as defined by the changing `stroke-dashoffset` keyframe values) but the rotation we added compensates for the backward swing. In other words, at the same time that the stroke swings backwards, the rotation spins the circle forwards fast enough that it never appears to go backwards.
+
+It's helpful to break the animation up into its constituent parts.
+
+<Row>
+  <Col>
+    Just dashoffsets:
+
+    <CircleSpinner
+      svg="stroked"
+      circle="stroked production stroke-length dash-offset-only"
+      r={45}
+    />
+  </Col>
+  <Col>
+    With circle rotations:
+
+    <CircleSpinner
+      svg="stroked"
+      circle="stroked production stroke-length dash-offset-animated"
+      r={45}
+    />
+  </Col>
+  <Col>
+    With everything:
+
+    <CircleSpinner
+      svg="stroked full-rotation"
+      circle="stroked production stroke-length dash-offset-animated"
+      r={45}
+    />
+  </Col>
+</Row>
+
+There's no magic formula to the timing of these animations and I only discovered them after lengthy experiment.
+
+### Different sizes
+
+Because the spinner is an SVG we can change the size by adjusting the width of the `<svg>` element.
+
+<Row>
+  <Col>
+    Quarter size:
+
+    <CircleSpinner
+      svg="xs stroked full-rotation"
+      circle="stroked production stroke-length dash-offset-animated"
+      r={45}
+    />
+  </Col>
+  <Col>
+    Half size:
+
+    <CircleSpinner
+      svg="sm stroked full-rotation"
+      circle="stroked production stroke-length dash-offset-animated"
+      r={45}
+    />
+  </Col>
+  <Col>
+    Double size:
+
+    <CircleSpinner
+      svg="2x stroked full-rotation"
+      circle="stroked production stroke-length dash-offset-animated"
+      r={45}
+    />
+  </Col>
+</Row>
+
+## The final code
+
+Our `HTML` looks much the same as when we started:
+
+```html
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="45" />
+</svg>
+```
+
+Here is the complete CSS:
+
+```scss
+// SVG styles.
+svg {
+  animation: 2s linear infinite svg-animation;
+  max-width: 100px;
+}
+
+// SVG animation.
+@keyframes svg-animation {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+// Circle styles.
+circle {
+  animation: 1.4s ease-in-out infinite both circle-animation;
+  display: block;
+  fill: transparent;
+  stroke: #2f3d4c;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 280;
+  stroke-width: 10px;
+  transform-origin: 50% 50%;
+}
+
+// Circle animation.
+@keyframes circle-animation {
+  0%,
+  25% {
+    stroke-dashoffset: 280;
+    transform: rotate(0);
+  }
+
+  50%,
+  75% {
+    stroke-dashoffset: 75;
+    transform: rotate(45deg);
+  }
+
+  100% {
+    stroke-dashoffset: 280;
+    transform: rotate(360deg);
+  }
+}
+```
+
+## Notes
+
+For the sake of simplicity I've used element selectors in this article but if you use this code yourself I recommend class name selectors instead. Also, I've omitted browser prefixes, but if you're hand-coding this - as against using [autoprefixer](https://github.com/postcss/autoprefixer) - you should include vendor prefixes.
+
+### Browser support
+
+Crucially, IE 11 and below do not support animation of the `stroke-dasharray` and `stroke-dashoffset` properties. This will be a _big_ gotcha for a lot of people. Browser support for [stroke-dasharray](https://css-tricks.com/almanac/properties/s/stroke-dasharray/) and [stroke-dashoffset](https://css-tricks.com/almanac/properties/s/stroke-dashoffset/) does go back to IE 9 but this animation does not work in IE11.
+
+If you want to use this and you're concerned about browser support, make sure you test it yourself. Or alternatively, use an animated GIF.
+
+</ArticleContainer>
