@@ -1,11 +1,11 @@
-
-
 //
 //  SCHECTER C-7 APOCALYPSE
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-// Variables.
-@import 'abstracts/variables';
+@import "abstracts/variables";
 
-// Article partial.
-@import 'articles/schecter-c7-apocalypse';
+.article-body__full-bleed {
+  background-color: $color-gray-2;
+  margin-bottom: -1px;
+  padding-bottom: $gutter * 2;
+}
