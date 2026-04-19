@@ -1,0 +1,43 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SectionArticlesSummary from "../../components/SectionArticlesSummary.astro";
+import { getCollection } from "astro:content";
+
+const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+
+export async function getStaticPaths() {
+  const articles = await getCollection("articles");
+  const categories = new Map<string, string>();
+  for (const a of articles) {
+    for (const category of a.data.categories) {
+      const slug = category.toLowerCase().replace(/\s+/g, "-");
+      categories.set(slug, category);
+    }
+  }
+  return [...categories.entries()].map(([slug, name]) => ({
+    params: { category: slug },
+    props: { categoryName: name },
+  }));
+}
+
+interface Props {
+  categoryName: string;
+}
+
+const { categoryName } = Astro.props;
+const articles = await getCollection("articles");
+const filtered = articles
+  .filter((a) => a.data.categories.includes(categoryName))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const categorySlug = slugify(categoryName);
+---
+
+<Layout
+  title={categoryName}
+  bodyClass={`category category-${categorySlug}`}
+>
+  <PageHeader title={categoryName} darkBg categoryIcon={categoryName} />
+  <SectionArticlesSummary articles={filtered} />
+</Layout>

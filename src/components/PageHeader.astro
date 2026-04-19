@@ -1,0 +1,49 @@
+---
+import CategoryIcon from "./CategoryIcon.astro";
+
+interface Props {
+  title: string;
+  superTitle?: string;
+  subTitle?: string;
+  darkBg?: boolean;
+  categoryIcon?: string;
+  extraClass?: string;
+}
+
+const {
+  title,
+  superTitle,
+  subTitle,
+  darkBg = false,
+  categoryIcon,
+  extraClass,
+} = Astro.props;
+
+const sectionClasses = [
+  "section",
+  "section__page-header",
+  darkBg && "-has-dark-bg",
+  "-has-background-device",
+  extraClass,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<section class={sectionClasses}>
+  <div class="container container__page-header">
+    {categoryIcon && <CategoryIcon category={categoryIcon} />}
+
+    <div class="row row__page-header">
+      <div
+        class="col-8 offset-3 col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2"
+      >
+        <div class="page-header__hgroup">
+          {superTitle && <h6 class="page-header__super-title">{superTitle}</h6>}
+          <h1 class="page-header__title">{title}</h1>
+          {subTitle && <p class="page-header__sub-title">{subTitle}</p>}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

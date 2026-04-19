@@ -1,0 +1,27 @@
+---
+import ArticleSummary from "./ArticleSummary.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  articles: CollectionEntry<"articles">[];
+  isFirstSection?: boolean;
+}
+
+const { articles, isFirstSection = false } = Astro.props;
+
+const sectionClasses = [
+  "section",
+  "section__articles-summary",
+  isFirstSection && "-is-first-section",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<section class={sectionClasses}>
+  <div class="container container__articles-summary">
+    <div class="row row__articles-summary">
+      {articles.map((article) => <ArticleSummary article={article} />)}
+    </div>
+  </div>
+</section>

@@ -1,16 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import SectionArticlesSummary from "../components/SectionArticlesSummary.astro";
+import { getCollection } from "astro:content";
+
+const articles = await getCollection("articles");
+const sorted = articles.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
 ---
 
 <Layout bodyClass="home page-home">
-  <section class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <h1>Glenn McComb</h1>
-          <p>Homepage placeholder — article grid comes next.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <SectionArticlesSummary articles={sorted} isFirstSection />
 </Layout>

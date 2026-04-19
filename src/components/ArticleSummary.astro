@@ -1,0 +1,72 @@
+---
+import { getImage } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"articles">;
+}
+
+const { article } = Astro.props;
+const { data } = article;
+
+const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+
+const featuredImage = data.featured
+  ? await getImage({ src: data.featured, width: 800, format: "webp" })
+  : null;
+
+const day = data.date.getUTCDate();
+const monthShort = data.date.toLocaleString("en-US", {
+  month: "short",
+  timeZone: "UTC",
+});
+const year = data.date.getUTCFullYear();
+
+const href = `/articles/${article.id}/`;
+---
+
+<div class="col-sm-12 col-md-6 col-lg-4 col__article-summary">
+  <article class="article-summary parallax-hover">
+    <a href={href} class="article-summary__link">
+      <div
+        class="article-summary__featured-image parallax-hover__featured-image"
+        style={featuredImage
+          ? `background-image: url(${featuredImage.src})`
+          : undefined}
+      >
+      </div>
+
+      <span
+        class="article-summary__content-wrapper parallax-hover__content-wrapper"
+      >
+        {
+          data.categories.length > 0 && (
+            <ul class="article-summary__categories">
+              {data.categories.map((category) => (
+                <li
+                  class={`article-summary__category article-summary__category-${slugify(category)}`}
+                >
+                  {category}
+                </li>
+              ))}
+            </ul>
+          )
+        }
+
+        <date class="article-date article-summary__date">
+          <span class="article-date__month">{monthShort}</span>
+          <span class="article-date__day">{day}</span>
+          <span class="article-date__year">{year}</span>
+        </date>
+
+        <h3 class="article-summary__title">{data.title}</h3>
+
+        {
+          data.description && (
+            <p class="article-summary__excerpt">{data.description}</p>
+          )
+        }
+      </span>
+    </a>
+  </article>
+</div>
