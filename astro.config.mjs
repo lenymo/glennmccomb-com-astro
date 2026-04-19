@@ -20,4 +20,10 @@ export default defineConfig({
       },
     },
   },
+  markdown: {
+    shikiConfig: {
+      // Shiki themes: https://shiki.style/themes
+      theme: "one-dark-pro",
+    },
+  },
 });
