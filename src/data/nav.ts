@@ -11,14 +11,31 @@ export const mainNav: NavItem[] = [
     name: "Articles",
     url: "/articles/",
     children: [
-      { identifier: "design", name: "Design", url: "/categories/design/" },
+      {
+        identifier: "design",
+        name: "Design",
+        url: "/categories/design/",
+      },
       {
         identifier: "development",
         name: "Development",
         url: "/categories/development/",
       },
-      { identifier: "gaming", name: "Gaming", url: "/categories/gaming/" },
-      { identifier: "nba", name: "NBA", url: "/categories/nba/" },
+      {
+        identifier: "gaming",
+        name: "Gaming",
+        url: "/categories/gaming/",
+      },
+      {
+        identifier: "music",
+        name: "Music",
+        url: "/categories/music/",
+      },
+      {
+        identifier: "nba",
+        name: "NBA",
+        url: "/categories/nba/",
+      },
     ],
   },
   { identifier: "photography", name: "Photography", url: "/photography/" },
