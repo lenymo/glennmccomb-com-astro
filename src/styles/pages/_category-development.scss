@@ -30,7 +30,7 @@ $page-header-development-icon-shadow: color.adjust(
   .page-header__icon-wrapper {
     color: $page-header-development-icon-color;
     font-family: $heading-font-family;
-    font-size: rem(40px);
+    font-size: rem(32px);
     font-weight: bold;
     left: 50%;
     letter-spacing: -0.075em;
@@ -38,7 +38,8 @@ $page-header-development-icon-shadow: color.adjust(
     position: absolute;
     text-align: center;
     text-shadow: 0 4px 0 $page-header-development-icon-shadow;
-    text-shadow: 0 1px 0 $page-header-development-icon-shadow,
+    text-shadow:
+      0 1px 0 $page-header-development-icon-shadow,
       0 2px 0 $page-header-development-icon-shadow,
       0 3px 0 $page-header-development-icon-shadow,
       0 4px 0 $page-header-development-icon-shadow;
@@ -50,23 +51,15 @@ $page-header-development-icon-shadow: color.adjust(
 @include respond-above(xs) {
   .category-development {
     .page-header__icon-wrapper {
-      font-size: rem(56px);
+      font-size: rem(48px);
     }
   }
 }
 
-// @include respond-above(sm) {
-//   .category-development {
-//     .page-header__icon-wrapper {
-//       // font-size: rem(60px);
-//     }
-//   }
-// }
-
 @include respond-above(lg) {
   .category-development {
     .page-header__icon-wrapper {
-      font-size: rem(64px);
+      font-size: rem(54px);
     }
   }
 }
