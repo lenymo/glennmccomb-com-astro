@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import BackgroundDevice from "./BackgroundDevice.astro";
 
 interface Props {
   title: string;
@@ -93,6 +94,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
         </div>
       </div>
     </div>
+    <BackgroundDevice />
   </div>
 
   {
