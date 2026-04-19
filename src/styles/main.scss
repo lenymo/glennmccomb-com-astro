@@ -109,8 +109,9 @@
 //  ARTICLES
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
-@import "articles/rust-survival-tips";
-// @import 'articles/rust-menu-ui';
+// Article-specific styles are colocated at
+// src/content/articles/<slug>/styles.scss
+// and imported directly from each article's index.mdx.
 
 //
 //  THEMES
