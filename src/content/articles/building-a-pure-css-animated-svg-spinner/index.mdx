@@ -13,8 +13,8 @@ custom_class: animated-svg-spinner
 import "./styles.scss";
 import ArticleContainer from "../../../components/article/ArticleContainer.astro";
 import Lead from "../../../components/shortcodes/Lead.astro";
-import Row from "../../../components/shortcodes/Row.astro";
-import Col from "../../../components/shortcodes/Col.astro";
+import Row from "../../../components/grid/Row.astro";
+import Col from "../../../components/grid/Col.astro";
 import CircleSpinner from "./CircleSpinner.tsx";
 
 <ArticleContainer>
@@ -187,8 +187,8 @@ Our original `<circle>` had a radius of `50`, and thus its circumference was `31
 
 Here is the same `stroke-dasharray` of `157` applied to `<circle>`'s with different radii.
 
-<Row>
-  <Col>
+<Row classNameSuffix="shortcode">
+  <Col classNameSuffix="shortcode">
     Radius 50:
 
     <CircleSpinner
@@ -198,7 +198,7 @@ Here is the same `stroke-dasharray` of `157` applied to `<circle>`'s with differ
       overflowVisible
     />
   </Col>
-  <Col>
+  <Col classNameSuffix="shortcode">
     Radius 45:
 
     <CircleSpinner
@@ -381,8 +381,8 @@ The circle's stroke is still swinging back and forth just like before (as define
 
 It's helpful to break the animation up into its constituent parts.
 
-<Row>
-  <Col>
+<Row classNameSuffix="shortcode">
+  <Col classNameSuffix="shortcode">
     Just dashoffsets:
 
     <CircleSpinner
@@ -391,7 +391,7 @@ It's helpful to break the animation up into its constituent parts.
       r={45}
     />
   </Col>
-  <Col>
+  <Col classNameSuffix="shortcode">
     With circle rotations:
 
     <CircleSpinner
@@ -400,7 +400,7 @@ It's helpful to break the animation up into its constituent parts.
       r={45}
     />
   </Col>
-  <Col>
+  <Col classNameSuffix="shortcode">
     With everything:
 
     <CircleSpinner
@@ -417,8 +417,8 @@ There's no magic formula to the timing of these animations and I only discovered
 
 Because the spinner is an SVG we can change the size by adjusting the width of the `<svg>` element.
 
-<Row>
-  <Col>
+<Row classNameSuffix="shortcode">
+  <Col classNameSuffix="shortcode">
     Quarter size:
 
     <CircleSpinner
@@ -427,7 +427,7 @@ Because the spinner is an SVG we can change the size by adjusting the width of t
       r={45}
     />
   </Col>
-  <Col>
+  <Col classNameSuffix="shortcode">
     Half size:
 
     <CircleSpinner
@@ -436,7 +436,7 @@ Because the spinner is an SVG we can change the size by adjusting the width of t
       r={45}
     />
   </Col>
-  <Col>
+  <Col classNameSuffix="shortcode">
     Double size:
 
     <CircleSpinner

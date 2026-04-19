@@ -1,0 +1,53 @@
+---
+interface Props {
+  xs?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+  offsetXs?: number;
+  offsetSm?: number;
+  offsetMd?: number;
+  offsetLg?: number;
+  offsetXl?: number;
+  classNameSuffix?: string;
+  class?: string;
+}
+
+const {
+  xs,
+  sm,
+  md,
+  lg,
+  xl,
+  offsetXs,
+  offsetSm,
+  offsetMd,
+  offsetLg,
+  offsetXl,
+  classNameSuffix,
+  class: extraClass,
+} = Astro.props;
+
+const classes = [
+  "col",
+  classNameSuffix && `col__${classNameSuffix}`,
+  xs !== undefined && `col-${xs}`,
+  sm !== undefined && `col-sm-${sm}`,
+  md !== undefined && `col-md-${md}`,
+  lg !== undefined && `col-lg-${lg}`,
+  xl !== undefined && `col-xl-${xl}`,
+  offsetXs !== undefined && `offset-${offsetXs}`,
+  offsetSm !== undefined && `offset-sm-${offsetSm}`,
+  offsetMd !== undefined && `offset-md-${offsetMd}`,
+  offsetLg !== undefined && `offset-lg-${offsetLg}`,
+  offsetXl !== undefined && `offset-xl-${offsetXl}`,
+  extraClass,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class={classes}>
+  <slot />
+</div>

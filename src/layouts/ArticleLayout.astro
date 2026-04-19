@@ -3,6 +3,9 @@ import Layout from "./Layout.astro";
 import ArticleHeader from "../components/ArticleHeader.astro";
 import ArticleContainer from "../components/article/ArticleContainer.astro";
 import TableOfContents from "../components/TableOfContents.astro";
+import Container from "../components/grid/Container.astro";
+import Row from "../components/grid/Row.astro";
+import Col from "../components/grid/Col.astro";
 import type { CollectionEntry } from "astro:content";
 import type { MarkdownHeading } from "astro";
 
@@ -97,9 +100,9 @@ const year = data.date.getUTCFullYear();
   </section>
 
   <section class="section section__article-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+    <Container>
+      <Row>
+        <Col sm={12} md={10} offsetMd={1} lg={8} offsetLg={2}>
           <div class="article-comments">
             <h2 class="article-comments__title">Leave a comment</h2>
             <div class="article-comments__disqus-wrapper">
@@ -109,8 +112,8 @@ const year = data.date.getUTCFullYear();
               <div class="disqus"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   </section>
 </Layout>

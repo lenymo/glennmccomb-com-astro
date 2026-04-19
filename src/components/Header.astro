@@ -1,9 +1,10 @@
 ---
 import SiteNav from "./SiteNav.astro";
+import Container from "./grid/Container.astro";
 ---
 
 <header class="site-header">
-  <div class="container site-header__container">
+  <Container class="site-header__container">
     <a href="/" class="site-header__logo">
       <svg
         class="site-header__logo-svg"
@@ -65,5 +66,5 @@ import SiteNav from "./SiteNav.astro";
     </a>
 
     <SiteNav />
-  </div>
+  </Container>
 </header>

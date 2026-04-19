@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets";
 import BackgroundDevice from "./BackgroundDevice.astro";
+import Container from "./grid/Container.astro";
+import Row from "./grid/Row.astro";
+import Col from "./grid/Col.astro";
 
 interface Props {
   title: string;
@@ -54,7 +57,7 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
 ---
 
 <section class={sectionClasses}>
-  <div class="container container__page-header">
+  <Container classNameSuffix="page-header">
     <date class="article-date article-header__date">
       <span class="article-date__month article-header__date-month"
         >{monthShort}</span
@@ -65,9 +68,16 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
       >
     </date>
 
-    <div class="row row__page-header">
-      <div
-        class="col-8 offset-3 col-sm-6 offset-sm-3 col-md-8 offset-md-2 col-lg-8 offset-lg-2"
+    <Row classNameSuffix="page-header">
+      <Col
+        xs={8}
+        offsetXs={3}
+        sm={6}
+        offsetSm={3}
+        md={8}
+        offsetMd={2}
+        lg={8}
+        offsetLg={2}
       >
         <div class="page-header__hgroup article-header__hgroup">
           {superTitle && <h6 class="page-header__super-title">{superTitle}</h6>}
@@ -92,10 +102,10 @@ const slugify = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
             )
           }
         </div>
-      </div>
-    </div>
+      </Col>
+    </Row>
     <BackgroundDevice />
-  </div>
+  </Container>
 
   {
     featured && (

@@ -1,0 +1,20 @@
+---
+interface Props {
+  classNameSuffix?: string;
+  class?: string;
+}
+
+const { classNameSuffix, class: extraClass } = Astro.props;
+
+const classes = [
+  "container",
+  classNameSuffix && `container__${classNameSuffix}`,
+  extraClass,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div class={classes}>
+  <slot />
+</div>

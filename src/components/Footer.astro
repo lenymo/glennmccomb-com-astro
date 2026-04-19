@@ -1,40 +1,43 @@
 ---
 import SocialLinks from "./SocialLinks.astro";
+import Container from "./grid/Container.astro";
+import Row from "./grid/Row.astro";
+import Col from "./grid/Col.astro";
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <section class="site-footer__top">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
+    <Container>
+      <Row>
+        <Col sm={12}>
           <div class="site-footer__social-links">
             <SocialLinks />
           </div>
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   </section>
 
   <section class="site-footer__bottom">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
+    <Container>
+      <Row>
+        <Col sm={12}>
           <p class="site-footer_developer-credits">
             Built using <a href="https://astro.build/">Astro</a>. Hosted by
             <a href="https://www.netlify.com/">Netlify</a>.
           </p>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      <div class="row">
-        <div class="col-sm-12">
+      <Row>
+        <Col sm={12}>
           <small class="site-footer__copyright"
             >Copyright © {year} Glenn McComb</small
           >
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   </section>
 </footer>

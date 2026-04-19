@@ -1,5 +1,6 @@
 ---
 import { getImage } from "astro:assets";
+import Col from "./grid/Col.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -25,7 +26,7 @@ const year = data.date.getUTCFullYear();
 const href = `/articles/${article.id}/`;
 ---
 
-<div class="col-sm-12 col-md-6 col-lg-4 col__article-summary">
+<Col sm={12} md={6} lg={4} classNameSuffix="article-summary">
   <article class="article-summary parallax-hover">
     <a href={href} class="article-summary__link">
       <div
@@ -69,4 +70,4 @@ const href = `/articles/${article.id}/`;
       </span>
     </a>
   </article>
-</div>
+</Col>

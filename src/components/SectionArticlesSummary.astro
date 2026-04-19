@@ -1,5 +1,7 @@
 ---
 import ArticleSummary from "./ArticleSummary.astro";
+import Container from "./grid/Container.astro";
+import Row from "./grid/Row.astro";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -19,9 +21,9 @@ const sectionClasses = [
 ---
 
 <section class={sectionClasses}>
-  <div class="container container__articles-summary">
-    <div class="row row__articles-summary">
+  <Container classNameSuffix="articles-summary">
+    <Row classNameSuffix="articles-summary">
       {articles.map((article) => <ArticleSummary article={article} />)}
-    </div>
-  </div>
+    </Row>
+  </Container>
 </section>

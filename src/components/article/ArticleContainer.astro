@@ -1,12 +1,15 @@
 ---
+import Container from "../grid/Container.astro";
+import Row from "../grid/Row.astro";
+import Col from "../grid/Col.astro";
 ---
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+<Container>
+  <Row>
+    <Col sm={12} md={10} offsetMd={1} lg={8} offsetLg={2}>
       <div class="article-body__content">
         <slot />
       </div>
-    </div>
-  </div>
-</div>
+    </Col>
+  </Row>
+</Container>

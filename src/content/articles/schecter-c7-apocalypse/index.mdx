@@ -14,8 +14,8 @@ import ArticleContainer from "../../../components/article/ArticleContainer.astro
 import ArticleContainerFullWidth from "../../../components/article/ArticleContainerFullWidth.astro";
 import Lead from "../../../components/shortcodes/Lead.astro";
 import Img from "../../../components/shortcodes/Img.astro";
-import Row from "../../../components/shortcodes/Row.astro";
-import Col from "../../../components/shortcodes/Col.astro";
+import Row from "../../../components/grid/Row.astro";
+import Col from "../../../components/grid/Col.astro";
 
 import overhead from "./img/overhead.jpg";
 import back from "./img/back.jpg";
@@ -41,22 +41,22 @@ It's a _great_ guitar, check out the photos!
 </ArticleContainerFullWidth>
 
 <ArticleContainerFullWidth container>
-  <Row>
-    <Col>
+  <Row classNameSuffix="shortcode">
+    <Col classNameSuffix="shortcode">
       <Img src={back} alt="Schecter C-7 Apocalypse - Back" />
     </Col>
-    <Col>
+    <Col classNameSuffix="shortcode">
       <Img src={backOfNeck} alt="Schecter C-7 Apocalypse - Back of neck" />
     </Col>
   </Row>
 </ArticleContainerFullWidth>
 
 <ArticleContainerFullWidth container>
-  <Row>
-    <Col>
+  <Row classNameSuffix="shortcode">
+    <Col classNameSuffix="shortcode">
       <Img src={body} alt="Schecter C-7 Apocalypse - Body" />
     </Col>
-    <Col>
+    <Col classNameSuffix="shortcode">
       <Img src={controls} alt="Schecter C-7 Apocalypse - Controls" />
     </Col>
   </Row>
